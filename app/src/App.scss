@@ -1,5 +1,20 @@
 .App {
   text-align: center;
+
+  background-image:linear-gradient(to top, #fff, #86d8ee);
+
+  .chucks-button{
+    padding: 1rem 2rem;
+    background:#099;
+    color: #fff;
+    border: 1px solid #f90;
+    margin: 5px;
+    
+  }
+  .joke-container{
+    min-height:100px;
+  }
+
   #joke-selector{
     max-width: 80%;
     margin: 0 auto;
@@ -17,6 +32,7 @@
   #categories{
     list-style: none;
     display: flex;
+    justify-content:center ;
     flex-wrap: wrap;
     margin: 0 auto;
     width: 400px;
@@ -31,6 +47,7 @@
     max-width: 80%;
     margin: 0 auto;
     background: #099;
+    margin-bottom: 50px;
     ul{
       overflow: hidden;
       padding: 0;
@@ -63,6 +80,7 @@
   outline: none;
   margin: 20px 0px;
   transition: 0.3s linear all;
+  border-radius: 10px;
   &:hover{
     color: #099;
     background: #fff;

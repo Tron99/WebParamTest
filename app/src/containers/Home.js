@@ -45,15 +45,12 @@ class Home extends Component {
             }
         }).then((result) => {
             this.props.setCategories(result.data.data.getJokeCategories)
-            console.log("got catefory", result.data.data.getJokeCategories)
         }).then(() => {
-            console.log(this.props.categories, "yeye!")
             this.setState({ options: this.props.categories })
         });
 
         this.props.setCategories();
-        console.log(store.getState(), "state here")
-        console.log(this.props)
+   
     }
 
     myEventHandler = (e) => {
@@ -65,31 +62,41 @@ class Home extends Component {
                 query: GET_RAND_JOKE_GQL
             }
         }).then((result) => {
-            console.log(result.data.data.getRandomJoke.value)
             let joke = result.data.data.getRandomJoke.value
             this.props.setJoke(joke)
             this.setState({isLoading:false})
         });
 
         this.props.getJoke();
-        console.log(store.getState(), "state here")
-        console.log(this.props)
 
+    }
+
+    categoryClicked = (e) =>{
+        e.preventDefault();
+        const categoryValue = e.target.value;
+        axios({
+            url: 'http://localhost:4000/graphiql',
+            method: 'post',
+            data: {
+                query: GET_JOKE_BY_CATEGORY_GQL,
+                variables:{
+                    category:categoryValue
+                }
+            }
+        }).then( res => {
+            this.props.setJoke(res.data.data.getRandomJokeByCategory.value)
+        })
     }
 
     handleChange = selectedOption => {
         this.setState({ selectedOption: selectedOption.value });
-        console.log(`Option selected:`, selectedOption);
-        console.log("current state ", this.state)
     }
     render() {
 
         let { joke } = this.props.joke
         return (
             <div>
-                <h1 style={noticeStyles}>Hey Click On the "Get Joke" button below to get a random or<br />
-                    Select the optional category then click on the "Get Joke" button to get a joke by category
-                    </h1>
+ 
                 <div id="joke-selector">
                     <div className="joke-container"><div>
 {
@@ -97,22 +104,29 @@ class Home extends Component {
 
                         <p style={{
                             display: "block",
-                            background: "#099",
-                            color: "#fff",
+                            color: "#000",
                             padding: "20px",
+                            border:"1px solid #000",
+                            width:"40%",
+                            margin:"0 auto",
+                            background:"#fff",
+                            borderRadius:"5px"
                         }}>{joke}</p>}
                     </div>
                     </div>
 
-                    <h1>Jokes are by these categories</h1>
+                    <h1>Click here to get joke by category</h1>
                     <ul id="categories">
                         {
                             this.state.options.map(item => {
-                                return <li key={item}>{item}</li>
+                                return <button className="chucks-button" onClick={this.categoryClicked} value={item}  key={item}>{item}</button>
                             })
                         }
                     </ul>
                 </div>
+
+                <h1>Click here to get random joke</h1>
+
                 <button id="getjoke-btn" onClick={this.myEventHandler}>Get Joke</button>
 
             </div>

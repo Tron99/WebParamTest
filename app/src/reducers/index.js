@@ -11,6 +11,7 @@ export const jokesReducer = (state={}, action) =>{
                return Object.assign({}, state, {categories:action.payload})
         case GET_RAND_JOKE:
         return state;
+        
             case SET_JOKE:
                 return Object.assign({}, state, {joke:action.payload})
         default:
